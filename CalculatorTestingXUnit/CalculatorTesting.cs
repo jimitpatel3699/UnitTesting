@@ -5,6 +5,10 @@ namespace CalculatorTestingXUnit
 {
     public class CalculatorTesting
     {
+        public CalculatorTesting() 
+        {
+            
+        }
         [Fact]
         public void TestAdditionWithInValidValue()
         {
