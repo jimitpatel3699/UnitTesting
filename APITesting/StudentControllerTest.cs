@@ -52,5 +52,57 @@ namespace APITesting
             Assert.IsNotNull(obj);
             Assert.AreEqual(200, obj.StatusCode);
         }
+        [TestMethod]
+        public void InsertStudent()
+        {
+            var studentlist = _fixture.CreateMany<Student>(3).ToList();
+            var studentviewmodel = _fixture.Create<StudentViewModel>();
+            _studentrepository.Setup(repo => repo.AddStudent(studentviewmodel)).Returns(studentlist);
+
+            _controller = new StudentController(_studentrepository.Object);
+
+            // Act
+            var result = _controller.AddStudentRecord(studentviewmodel);
+
+            // Assert
+            var obj = result as ObjectResult;
+            Assert.IsNotNull(obj);
+            Assert.AreEqual(200, obj.StatusCode);
+        }
+        [TestMethod]
+        public void DeleteStudent()
+        {
+            var student = _fixture.Create<Student>();
+            var studentid = _fixture.Create<int>();
+            _studentrepository.Setup(repo => repo.DeleteStudent(studentid)).Returns(student);
+
+            _controller = new StudentController(_studentrepository.Object);
+
+            // Act
+            var result = _controller.DeleteStudent(studentid);
+
+            // Assert
+            var obj = result as ObjectResult;
+            Assert.IsNotNull(obj);
+            Assert.AreEqual(200, obj.StatusCode);
+        }
+        [TestMethod]
+        public void GetStudentbyId()
+        {
+            var student = _fixture.Create<Student>();
+            var studentid = _fixture.Create<int>();
+            _studentrepository.Setup(repo => repo.GetSingleStudent(studentid)).Returns(student);
+
+            _controller = new StudentController(_studentrepository.Object);
+
+            // Act
+            var result = _controller.ShowSingleStudent(studentid);
+
+            // Assert
+            var obj = result as ObjectResult;
+            Assert.IsNotNull(obj);
+            Assert.AreEqual(200, obj.StatusCode);
+        }
+
     }
 }
